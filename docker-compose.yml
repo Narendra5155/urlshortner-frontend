@@ -1,0 +1,7 @@
+services:
+  frontend:
+    image: hindwar5155/shorturl-frontend
+    build: .
+    restart: unless-stopped
+    ports:
+      - "3000:80"
