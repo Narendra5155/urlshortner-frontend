@@ -70,6 +70,7 @@ jobs:
         run: |
           ssh -i ~/.ssh/id_rsa $SSH_USERNAME@$SSH_HOST \
             "APP_DIR='$APP_DIR' bash -s" << 'REMOTE' 
+          echo "Creating app directory $APP_DIR"
           rm -rf $APP_DIR
           mkdir -p $APP_DIR 
           REMOTE
