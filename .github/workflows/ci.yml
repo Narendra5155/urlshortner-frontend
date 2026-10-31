@@ -68,7 +68,11 @@ jobs:
           ssh-keyscan -H $SSH_HOST >> ~/.ssh/known_hosts
       - name: Copy compose file to remote server
         run: |
-          ssh -i ~/.ssh/id_rsa $SSH_USERNAME@$SSH_HOST "rm -rf $APP_DIR && mkdir -p $APP_DIR"
+          ssh -i ~/.ssh/id_rsa $SSH_USERNAME@$SSH_HOST /
+            "APP_DIR='$APP_DIR' bash -s" << 'REMOTE' 
+          rm -rf $APP_DIR
+          mkdir -p $APP_DIR 
+          REMOTE
           scp -i ~/.ssh/id_rsa docker-compose.yml $SSH_USERNAME@$SSH_HOST:$APP_DIR
       - name: Deploy
         env:
