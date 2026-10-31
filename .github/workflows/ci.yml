@@ -43,8 +43,8 @@ jobs:
           push: true
           platforms: linux/amd64,linux/arm64
           tags: |
-            ${{vars.DOCKERHUB_USERNAME}}/todo-frontend:latest
-            ${{vars.DOCKERHUB_USERNAME}}/todo-frontend:${{github.sha}}
+            ${{vars.DOCKERHUB_USERNAME}}/shorturl-frontend:latest
+            ${{vars.DOCKERHUB_USERNAME}}/shorturl-frontend:${{github.sha}}
 
   deploy:
     runs-on: ubuntu-latest
