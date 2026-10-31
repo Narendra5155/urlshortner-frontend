@@ -61,13 +61,13 @@ jobs:
           wc -c ~/.ssh/id_rsa
       - name: Copy compose file to remote server
         run: |
-          scp docker-compose.yml $SSH_USERNAME@$SSH_HOST:$APP_DIR
+          scp -i ~/.ssh/id_rsa docker-compose.yml $SSH_USERNAME@$SSH_HOST:$APP_DIR
       - name: Deploy
         env:
           DOCKERHUB_USERNAME: ${{vars.DOCKERHUB_USERNAME}}
           DOCKERHUB_TOKEN: ${{secrets.DOCKERHUB_TOKEN}}
         run: |
-          ssh $SSH_USERNAME@$SSH_HOST \
+          ssh -i ~/.ssh/id_rsa $SSH_USERNAME@$SSH_HOST \
           "DOCKERHUB_USERNAME='${DOCKERHUB_USERNAME}' DOCKERHUB_TOKEN='${DOCKERHUB_TOKEN} APP_DIR='${APP_DIR}' bash -s" << 'REMOTE'
           cd "${APP_DIR}"
           echo $DOCKERHUB_TOKEN | docker login -u $DOCKERHUB_USERNAME --password-stdin
