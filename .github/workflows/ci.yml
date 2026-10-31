@@ -71,7 +71,12 @@ jobs:
           ssh -i ~/.ssh/id_rsa $SSH_USERNAME@$SSH_HOST \
             "APP_DIR='$APP_DIR' bash -s" << 'REMOTE' 
           echo "Creating app directory $APP_DIR"
+          #checking if rm worked
           rm -rf $APP_DIR
+          if [ $? -ne 0 ]; then
+            echo "Failed to remove app directory $APP_DIR"
+            exit 1
+          fi
           mkdir -p $APP_DIR 
           REMOTE
           scp -i ~/.ssh/id_rsa docker-compose.yml $SSH_USERNAME@$SSH_HOST:$APP_DIR
