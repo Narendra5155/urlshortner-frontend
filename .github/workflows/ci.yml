@@ -7,7 +7,6 @@ on:
 
 jobs:
   test:
-    if: false
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -18,7 +17,6 @@ jobs:
       # - run: npm run lint
       - run: npm run build
   build:
-    if: false
     runs-on: ubuntu-latest
     needs: test
     steps:
@@ -48,7 +46,7 @@ jobs:
 
   deploy:
     runs-on: ubuntu-latest
-    # needs: build
+    needs: build
     permissions:
       contents: read
       packages: write
@@ -66,8 +64,6 @@ jobs:
           echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
           ssh-keyscan -H $SSH_HOST >> ~/.ssh/known_hosts
-          wc -c ~/.ssh/id_rsa
-          ssh-keygen -lf ~/.ssh/id_rsa
       - name: Copy compose file to remote server
         run: |
           scp -i ~/.ssh/id_rsa docker-compose.yml $SSH_USERNAME@$SSH_HOST:$APP_DIR
